@@ -1,5 +1,10 @@
+<link rel="stylesheet" type="text/css" href="disruptive.css" inline>
+
 <div class="snippet">
   <div id="mofo-eoy-2014" class="disruptive">
-    <img src="envelope.png">
+    <p>Fly my pretties!</p>
   </div>
 </div>
+
+<script type="text/javascript" src="vendor/physicsjs-0.6.0/physicsjs-full-0.6.0.min.js" inline></script>
+<script type="text/javascript" src="disruptive.js" inline></script>

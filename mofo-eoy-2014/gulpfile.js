@@ -38,7 +38,7 @@ gulp.task('build-pages', ['inline'], function () {
 })
 
 gulp.task('watch', function () {
-  var watcher = gulp.watch(['*.partial', '*.template', 'snippet.js', 'snippet.css'], ['build']);
+  var watcher = gulp.watch(['*.partial', '*.template', '*.js', '*.css'], ['build']);
 });
 
 gulp.task('connect', function() {
