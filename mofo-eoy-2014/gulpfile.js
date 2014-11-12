@@ -3,39 +3,42 @@ var gulp = require('gulp');
 var replace = require('gulp-replace');
 var rename = require('gulp-rename');
 var connect = require('gulp-connect');
+var inlinesource = require('gulp-inline-source');
 
-// Construct snippet HTML partials
-gulp.task('build-snippets', function() {
-  var css = fs.readFileSync('snippet.css');
-  var js = fs.readFileSync('snippet.js');
+// Inline external CSS and JS for snippet partials
+gulp.task('inline', function () {
+  var options = {
+    compress: true
+  };
 
-  return gulp.src(['snippet.template', 'snippet-alt.template'])
+  return gulp.src('*.partial')
     .pipe(rename(function (path) {
       path.extname = '.html'
     }))
-    .pipe(replace('{{ CSS }}', css))
-    .pipe(replace('{{ JS }}', js))
-    .pipe(gulp.dest('./build/'));
+    .pipe(inlinesource(options))
+    .pipe(gulp.dest('./build'));
 });
 
 // Construct demo html pages
-gulp.task('build-pages', ['build-snippets'], function () {
+gulp.task('build-pages', ['inline'], function () {
   var builtSnippet = fs.readFileSync('build/snippet.html');
   var builtSnippetAlt = fs.readFileSync('build/snippet-alt.html');
+  var builtSnippetDisruptive = fs.readFileSync('build/snippet-disruptive.html');
 
-  gulp.src('index.template')
-    .pipe(rename('index.html'))
-    .pipe(replace('{{ SNIPPET }}', builtSnippet))
-    .pipe(gulp.dest('./build/'));
+  function buildPage(snippet, filename) {
+    gulp.src('index.template')
+      .pipe(rename(filename))
+      .pipe(replace('{{ SNIPPET }}', snippet))
+      .pipe(gulp.dest('./build/'));
+  }
 
-  gulp.src('index.template')
-    .pipe(rename('index-alt.html'))
-    .pipe(replace('{{ SNIPPET }}', builtSnippetAlt))
-    .pipe(gulp.dest('./build/'));
+  buildPage(builtSnippet, 'index.html');
+  buildPage(builtSnippetAlt, 'index-alt.html');
+  buildPage(builtSnippetDisruptive, 'index-disruptive.html');
 })
 
 gulp.task('watch', function () {
-  var watcher = gulp.watch(['*.template', 'snippet.js', 'snippet.css'], ['build']);
+  var watcher = gulp.watch(['*.partial', '*.template', 'snippet.js', 'snippet.css'], ['build']);
 });
 
 gulp.task('connect', function() {

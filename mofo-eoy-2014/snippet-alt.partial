@@ -1,5 +1,5 @@
 <div class="snippet">
-  <style type="text/css">{{ CSS }}</style>
+  <link rel="stylesheet" type="text/css" href="snippet.css" inline>
   <div id="mofo-eoy-2014" class="alternative">
     <p><b>Dear Firefox users:</b> Firefox puts the public good and user privacy before profit. If Firefox is useful to you, take one minute to support the nonprofit and volunteers behind it. <em>If everyone reading this donates $3, Mozilla's fundraiser would be over within an hour.</em> <i>Thank you</i>.</p>
 
@@ -13,5 +13,5 @@
       <a id="donate-button" class="button button-red button-wide pull-right" href="https://sendto.mozilla.org/page/contribute/givenow-1page?ref=EOYFR2014&utm_campaign=EOYFR2014&utm_source=testA_selectamt&utm_medium=snippet#amount-10" target="_blank">Donate</a>
     </div>
   </div>
-  <script>{{ JS }}</script>
+  <script type="text/javascript" src="snippet.js" inline></script>
 </div>
