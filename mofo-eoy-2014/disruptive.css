@@ -1,3 +1,15 @@
 .pjs-rectangle {
   background: url(envelope.png) no-repeat;
 }
+
+#mofo-eoy-2014 p {
+  text-align: center;
+  font-size: 17px;
+  font-family: "Open Sans";
+}
+
+#mofo-eoy-2014 img {
+  position: relative;
+  top: 12px;
+  margin-right: 5px;
+}
