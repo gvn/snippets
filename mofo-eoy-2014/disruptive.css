@@ -1,5 +1,5 @@
 .pjs-rectangle {
-  background: url(envelope.png) no-repeat;
+  background: url(envelope-1x.png) no-repeat;
 }
 
 #mofo-eoy-2014 p {
@@ -10,6 +10,6 @@
 
 #mofo-eoy-2014 img {
   position: relative;
-  top: 12px;
+  top: 8px;
   margin-right: 5px;
 }

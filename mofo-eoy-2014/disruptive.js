@@ -1,8 +1,9 @@
 function init () {
   Physics(function(world){
 
-    var viewWidth = window.innerWidth;
-    var viewHeight = window.innerHeight;
+    const viewWidth = window.innerWidth;
+    const viewHeight = window.innerHeight;
+    const envelopeCount = 75;
 
     var elLauncher = document.querySelector('#launcher');
 
@@ -31,37 +32,26 @@ function init () {
       cof: 0.5
     }));
 
-    // pos: The position of the attraction point
-    // strength: How strong the attraction is (default: 1)
-    // order: The power of the inverse distance (default: 2 because that is newtonian gravity... inverse square)
-    // max: The maximum distance in which to apply the attraction (default: Infinity)
-    // min: The minimum distance above which to apply the attraction (default: very small non-zero)
+    var envelopes = [];
 
-    // var elPrimaryEnvelope = document.querySelector('#primary-envelope');
+    // Create and add all the envelopes
+    for (var i = 0; i < envelopeCount; i++) {
+      envelopes.push(new Physics.body('rectangle', {
+        x: viewWidth / 2,
+        y: 0,
+        vx: (Math.random() / 15) * (Math.random() > 0.5 ? 1 : -1),
+        vy: 0.1 * Math.random() + 0.4,
+        width: 40,
+        height: 30,
+        angle: Math.random() * 360,
+        cof: 0.5,
+        restitution: 0.6
+      }));
 
-    // world.add(Physics.behavior('attractor', {
-    //   pos: new Physics.vector(elPrimaryEnvelope.offsetLeft, elPrimaryEnvelope.offsetTop),
-    //   strength: 10,
-    //   min: 1,
-    //   max: 10
-    // }))
-
-    // Add all the envelopes
-    for (var i = 0; i < 60; i++) {
       setTimeout(function () {
-        world.add(
-          Physics.body('rectangle', {
-            x: viewWidth / 2,
-            y: 0,
-            vx: (Math.random() / 15) * (Math.random() > 0.5 ? 1 : -1),
-            vy: 0.1 * Math.random() + 0.4,
-            width: 42,
-            height: 42,
-            cof: 0.5,
-            restitution: 0.6
-          })
-        );
-      }, Math.random() * 2000)
+        world.add(envelopes[i]);
+        i--;
+      }, Math.random() * 3000)
     }
 
     // ensure objects bounce when edge collision is detected
@@ -70,15 +60,22 @@ function init () {
     // add some gravity
     var gravity = Physics.behavior('constant-acceleration');
     gravity.setAcceleration({ x: 0, y: 0.0004 }); // default { x: 0, y: 0.0004 }
+
     world.add(gravity);
 
     // subscribe to ticker to advance the simulation
     Physics.util.ticker.on(function( time, dt ){
-      world.step( time );
+      world.step(time);
     });
 
     // start the ticker
     Physics.util.ticker.start();
+
+    // Pause simulation after a while to stop pegging cpu
+    setTimeout(function() {
+      console.log('pausing world');
+      world.pause();
+    }, 20000);
 
   });
 }
