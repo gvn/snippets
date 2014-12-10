@@ -13,7 +13,7 @@ gulp.task('build', function () {
     .pipe(replace('{{ donationAmountRight|safe }}', '3'))
     .pipe(replace('{{ donationAmountMiddle|safe }}', '5'))
     .pipe(replace('{{ donationFormURL|safe }}', 'http://example.org'))
-    .pipe(replace('{{ text|safe }}', '<b>Dear Firefox users:</b> Firefox puts the public good and user privacy before profit. If Firefox is useful to you, take one minute to support the non-profit behind it. <em>If everyone reading this donates $3, Mozilla\'s fundraiser would be over within an hour.</em> <i>Thank you.</i>'))
+    .pipe(replace('{{ text|safe }}', 'Mozilla, the non-profit behind Firefox, relies on grants and donations from people like you. If everyone reading this donates a few dollars, we can be fully funded for another year.'))
     .pipe(replace('{{ highlightColor }}', 'yellow'))
     .pipe(gulp.dest('./'));
 })
