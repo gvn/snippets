@@ -103,6 +103,7 @@
 
         #mofo-eoy-fundraiser-{{ snippet_id }} .button:hover {
           cursor: pointer;
+          background-color: rgb(120, 120, 120);
         }
 
         #mofo-eoy-fundraiser-{{ snippet_id }} .button:focus {
@@ -133,6 +134,10 @@
           border: 1px solid rgba(75, 172, 238, 0.9);
         }
 
+        #mofo-eoy-fundraiser-{{ snippet_id }} .button-selected:hover {
+          background: linear-gradient(rgb(55, 152, 218), rgb(2, 112, 205));
+        }
+
         #mofo-eoy-fundraiser-{{ snippet_id }} .button img {
           width: 79%;
         }
@@ -143,14 +148,6 @@
         }
 
         /* Utilities */
-
-        #mofo-eoy-fundraiser-{{ snippet_id }} .pull-right {
-          float: right;
-        }
-
-        #mofo-eoy-fundraiser-{{ snippet_id }} .pull-left {
-          float: left;
-        }
 
         #mofo-eoy-fundraiser-{{ snippet_id }} .center {
           text-align: center;
@@ -204,7 +201,7 @@
         </div>
 
         <div class="center">
-          <a class="button button-red button-wide donate-button" href="#" target="_blank">Donate Now &#187;</a>
+          <a class="button button-red button-wide donate-button" href="#" target="_blank">Donate now &#187;</a>
         </div>
       </div>
     </div>
