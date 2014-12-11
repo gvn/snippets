@@ -173,7 +173,8 @@
 
     <div class="columns">
       <div class="column thumbnail">
-        <img src="EOY_Snippet_FoxinaBox_Animated_wBG@2x.gif">
+        <!-- TODO : inline -->
+        <img src="images/EOY_Snippet_FoxinaBox_Animated_wBG@2x.gif">
       </div>
       <div class="column">
         <p>{{ text|safe }}</p>
@@ -193,18 +194,20 @@
             <header>Payment Method</header>
 
             <div class="flex flex-2-50">
-              <a class="button button-selected">
-                <img src="paypal_white.png">
+              <a class="button button-selected" data-payment="paypal">
+                <!-- TODO : inline -->
+                <img src="images/paypal_white.png">
               </a>
-              <a class="button">
-                <img src="cards.png">
+              <a class="button" data-payment="credit">
+                <!-- TODO : inline -->
+                <img src="images/cards.png">
               </a>
             </div>
           </div>
         </div>
 
         <div class="center">
-          <a class="button button-red button-wide donate-button" href="{{ donationFormURL|safe }}#amount-{{ donationAmountLeft|safe }}" target="_blank">Donate Now &#187;</a>
+          <a class="button button-red button-wide donate-button" href="#" target="_blank">Donate Now &#187;</a>
         </div>
       </div>
     </div>
@@ -212,11 +215,43 @@
   <script type="text/javascript">
       //<![CDATA[
       (function() {
+
+          // Component for creating custom radio/toggle groups
+          var ToggleGroup = function (elTarget, onSelectedCallback) {
+            var buttons = elTarget.querySelectorAll('.button');
+            var selectedButton = elTarget.querySelector('.button-selected');
+
+            function selectButton(element) {
+              if (!element.classList.contains('button-selected')) {
+                element.classList.add('button-selected');
+                selectedButton.classList.remove('button-selected');
+                selectedButton = element;
+
+                if (onSelectedCallback) {
+                  onSelectedCallback.call(this, element);
+                }
+              }
+            }
+
+            // Event binding
+            for(var i=0; i<buttons.length; i++) {
+              buttons[i].addEventListener('click', function () {
+                selectButton(this);
+              });
+            }
+          }
+
           var snippet = document.getElementById('mofo-eoy-fundraiser-{{ snippet_id }}');
+
           snippet.addEventListener('show_snippet', function() {
               (function () {
                 var donationURL = '{{ donationFormURL|safe }}';
+                var paypalURL = 'http://example.org/paypal/'; // TODO - get URL , TODO - tokenify
                 var extraParams = 'snippet_name=' + snippet.parentNode.dataset.snippetId;
+
+                var donationAmount = 10; // TODO - pull from dom
+                var donationMethod = 'paypal'; // TODO - pull from dom
+
                 if (donationURL.indexOf('?') !== -1) {
                     donationURL += '&' + extraParams;
                 } else {
@@ -224,30 +259,37 @@
                 }
 
                 // Element cache :
-
-                var btnAmounts = snippet.querySelectorAll('.donation-amounts .button');
-                var btnSelected = snippet.querySelector('.donation-amounts .button-selected');
                 var btnDonate = snippet.querySelector('.donate-button');
                 var elHighlighted = snippet.querySelector('em');
 
-                // View functions
+                // Set URL of donate anchor/button in DOM
+                function setURL() {
+                  var url;
 
-                function selectAmount(element) {
-                  element.classList.add('button-selected');
-                  btnSelected.classList.remove('button-selected');
-                  btnSelected = element;
-                  btnDonate.attributes['href'].value = (donationURL + '#amount-' + element.attributes['data-amount'].value).replace(/&amp;/g, '&');
+                  if (donationMethod === 'paypal') {
+                    url = paypalURL;
+                    url += ('#amount-' + donationAmount);
+                  } else if (donationMethod === 'credit') {
+                    url = donationURL;
+                    url += ('#amount-' + donationAmount);
+                  }
+
+                  btnDonate.attributes['href'].value = url.replace(/&amp;/g, '&');
                 }
+
+                setURL();
+
+                new ToggleGroup(snippet.querySelector('.donation-amounts'), function (element) {
+                  donationAmount = element.attributes['data-amount'].value;
+                  setURL();
+                });
+
+                new ToggleGroup(snippet.querySelector('.payment-methods'), function (element) {
+                  donationMethod = element.attributes['data-payment'].value;
+                  setURL();
+                });
 
                 // Event binding :
-
-                for(var i=0; i<btnAmounts.length; i++) {
-                  btnAmounts[i].addEventListener('click', function (event) {
-                    if (!event.target.classList.contains('button-selected')) {
-                      selectAmount(event.target);
-                    }
-                  });
-                }
 
                 btnDonate.addEventListener('click', function (event) {
                   btnDonate.blur();
