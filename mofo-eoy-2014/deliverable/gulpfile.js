@@ -12,7 +12,8 @@ gulp.task('build', function () {
     .pipe(replace('{{ donationAmountLeft|safe }}', '10'))
     .pipe(replace('{{ donationAmountRight|safe }}', '3'))
     .pipe(replace('{{ donationAmountMiddle|safe }}', '5'))
-    .pipe(replace('{{ donationFormURL|safe }}', 'http://example.org'))
+    .pipe(replace('{{ donationFormURL|safe }}', 'https://sendto.mozilla.org/page/contribute/givenow-seq?ref=EOYFR2014&amp;utm_campaign=EOYFR2014&amp;utm_source=firefox&amp;utm_medium=snippet&amp;utm_content=SelectAMT_test2&amp;sample_rate=0.1&amp;snippet_name=4807'))
+    .pipe(replace('{{ paypalURL|safe }}', 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=44ZHAVWJHTK2N&amp;locale=US&amp;item_name=Mozilla%20Foundation&amp;no_note=1&amp;no_shipping=1&amp;rm=1&amp;custom=20140923%20eoy14%20sequential&amp;currency_code=USD&amp;amount='))
     .pipe(replace('{{ text|safe }}', 'Mozilla, the non-profit behind Firefox, relies on grants and donations from people like you. If everyone reading this donates a few dollars, we can be fully funded for another year.'))
     .pipe(replace('{{ highlightColor }}', 'yellow'))
     .pipe(gulp.dest('./'));

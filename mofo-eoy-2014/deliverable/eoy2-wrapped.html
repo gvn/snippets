@@ -134,7 +134,7 @@
         }
 
         #mofo-eoy-fundraiser-{{ snippet_id }} .button img {
-          width: 82%;
+          width: 79%;
         }
 
         #mofo-eoy-fundraiser-{{ snippet_id }} header {
@@ -243,11 +243,11 @@
           snippet.addEventListener('show_snippet', function() {
               (function () {
                 var donationURL = '{{ donationFormURL|safe }}';
-                var paypalURL = 'http://example.org/paypal/'; // TODO - get URL , TODO - tokenify
+                var paypalURL = '{{ paypalURL|safe }}';
                 var extraParams = 'snippet_name=' + snippet.parentNode.dataset.snippetId;
 
-                var donationAmount = 10; // TODO - pull from dom
-                var donationMethod = 'paypal'; // TODO - pull from dom
+                var donationAmount = {{ donationAmountLeft|safe }};
+                var donationMethod = 'paypal';
 
                 if (donationURL.indexOf('?') !== -1) {
                     donationURL += '&' + extraParams;
@@ -265,11 +265,12 @@
 
                   if (donationMethod === 'paypal') {
                     url = paypalURL;
-                    url += ('#amount-' + donationAmount);
+                    url += donationAmount;
                   } else if (donationMethod === 'credit') {
-                    url = donationURL;
-                    url += ('#amount-' + donationAmount);
+                    url = donationURL + '#amount-';
+                    url += donationAmount;
                   }
+
 
                   btnDonate.attributes['href'].value = url.replace(/&amp;/g, '&');
                 }
